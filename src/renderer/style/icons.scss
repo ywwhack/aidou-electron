@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'aidou';
+  src:
+    url('fonts/aidou.ttf?h1bldk') format('truetype'),
+    url('fonts/aidou.woff?h1bldk') format('woff'),
+    url('fonts/aidou.svg?h1bldk#aidou') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'aidou' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete_forever:before {
+  content: "\e900";
+}
+.icon-favorite:before {
+  content: "\e901";
+}
+.icon-shuffle:before {
+  content: "\e902";
+}
+.icon-refresh:before {
+  content: "\e903";
+}
+.icon-settings:before {
+  content: "\e904";
+}
+.icon-favorite_border:before {
+  content: "\e905";
+}
+.icon-search:before {
+  content: "\e906";
+}
+.icon-close:before {
+  content: "\e907";
+}
