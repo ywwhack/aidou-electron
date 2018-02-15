@@ -1,8 +1,9 @@
 <template>
-  <div class="cpt-expression" @click="buildMarkLink">
-    <img v-show="src" :src="src">
-    <loading v-show="!src"></loading>
-    <span class="collect-btn"
+  <div class="cpt-expression" @click="copyImgToClipboard">
+    <img v-show="imgData" :src="imgData">
+    <loading v-show="!imgData"></loading>
+    <span
+      class="collect-btn"
       :class="collectClass"
       @click.stop="updateExpression">
     </span>
@@ -18,6 +19,7 @@ import LINK_BUILDER from '../util/linkBuilder'
 import {
   fetchImgToBase64
 } from '@/common/imgProcess'
+import picBed from '@/service/picBed'
 
 const WEIBO_LOGIN = 'http://weibo.com/?topnav=1&mod=logo'
 
@@ -32,12 +34,15 @@ export default {
 
   data () {
     return {
-      src: ''
+      imgData: ''
     }
   },
 
   watch: {
-    exp: 'fetchImgData'
+    'exp': {
+      immediate: true,
+      handler: 'fetchImgData'
+    }
   },
 
   computed: {
@@ -64,10 +69,6 @@ export default {
       return $store.appConfig.copyLink
     },
 
-    usePicBed () {
-      return false
-    },
-
     active ({
       exp,
       $store
@@ -76,16 +77,59 @@ export default {
     }
   },
 
-  created () {
-    this.fetchImgData()
-  },
-
   methods: {
+    getImgDataError () {
+      this.$swal({
+        text: '图片获取失败啦，请稍后再尝试~',
+        icon: 'warning',
+        buttons: false
+      })
+    },
+
+    copyImgSuccess (url) {
+      this.$swal({
+        title: '复制成功',
+        text: url.slice(0, 30) + '......',
+        icon: 'success',
+        buttons: false,
+        timer: 2000
+      })
+    },
+
+    copyImgToClipboard () {
+      const {
+        $electron,
+        $store,
+        imgData,
+        getImgDataError,
+        copyImgSuccess
+      } = this
+
+      if (!imgData) return
+
+      picBed[$store.appConfig.picBed](imgData).then(({ url, err = '图床服务出错!', server }) => {
+        if (!url) {
+          return this.picBedErrHandler(server, err)
+        }
+
+        // write image to clipbord
+        fetchImgToBase64(url).then(res => {
+          const {
+            nativeImage,
+            clipboard
+          } = $electron
+          const image = nativeImage.createFromDataURL(res)
+          clipboard.writeImage(image)
+          copyImgSuccess(url)
+        }, getImgDataError)
+      })
+    },
+
     fetchImgData () {
       const link = this.exp.link
       if (!link) return
       fetchImgToBase64(link).then(res => {
-        this.src = res
+        this.imgData = res
       })
     },
 
