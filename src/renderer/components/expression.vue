@@ -16,10 +16,7 @@ import bus from '../util/bus'
 import Loading from './loading'
 import showLinks from './showLinks'
 import LINK_BUILDER from '../util/linkBuilder'
-import {
-  fetchImgToBase64
-} from '@/common/imgProcess'
-import picBed from '@/service/picBed'
+import ImageManager from '@/common/ImageManager'
 
 const WEIBO_LOGIN = 'http://weibo.com/?topnav=1&mod=logo'
 
@@ -33,6 +30,8 @@ export default {
   },
 
   data () {
+    this.imageManager = null
+
     return {
       imgData: ''
     }
@@ -78,7 +77,7 @@ export default {
   },
 
   methods: {
-    getImgDataError () {
+    copyImgError () {
       this.$swal({
         text: '图片获取失败啦，请稍后再尝试~',
         icon: 'warning',
@@ -96,39 +95,29 @@ export default {
       })
     },
 
-    copyImgToClipboard () {
+    async copyImgToClipboard () {
       const {
-        $electron,
-        $store,
-        imgData,
-        getImgDataError,
-        copyImgSuccess
+        imageManager,
+        copyImgError,
+        copyImgSuccess,
+        exp
       } = this
 
-      if (!imgData) return
+      if (!imageManager) return
 
-      picBed[$store.appConfig.picBed](imgData).then(({ url, err = '图床服务出错!', server }) => {
-        if (!url) {
-          return this.picBedErrHandler(server, err)
-        }
-
-        // write image to clipbord
-        fetchImgToBase64(url).then(res => {
-          const {
-            nativeImage,
-            clipboard
-          } = $electron
-          const image = nativeImage.createFromDataURL(res)
-          clipboard.writeImage(image)
-          copyImgSuccess(url)
-        }, getImgDataError)
-      })
+      try {
+        await imageManager.copy()
+        copyImgSuccess(exp.link)
+      } catch (e) {
+        copyImgError()
+      }
     },
 
     fetchImgData () {
       const link = this.exp.link
       if (!link) return
-      fetchImgToBase64(link).then(res => {
+      const imageManager = this.imageManager = new ImageManager(link)
+      imageManager.toBase64().then(res => {
         this.imgData = res
       })
     },
