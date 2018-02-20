@@ -10,6 +10,10 @@ const BabiliWebpackPlugin = require('babili-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const del = require('del')
+
+// remove all static/temp_image images
+del.sync(['static/temp_image/*', '!static/temp_image/.placeholder'])
 
 /**
  * List of node_modules to include in webpack bundle
@@ -162,8 +166,7 @@ if (process.env.NODE_ENV === 'production') {
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
-        to: path.join(__dirname, '../dist/electron/static'),
-        ignore: ['.*']
+        to: path.join(__dirname, '../dist/electron/static')
       }
     ]),
     new webpack.DefinePlugin({

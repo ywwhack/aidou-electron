@@ -8,4 +8,5 @@ npm-debug.log
 npm-debug.log.*
 thumbs.db
 !.gitkeep
-temp_image/
+static/temp_image/*
+!static/temp_image/.placeholder
