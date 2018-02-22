@@ -1,6 +1,6 @@
 {
   "name": "aidou-electron",
-  "productName": "aidou electron",
+  "productName": "aidou",
   "version": "0.0.1",
   "author": "ywwhack <yww7289@163.com>",
   "description": "aidou electron project",
@@ -9,8 +9,9 @@
   "scripts": {
     "build": "node .electron-vue/build.js",
     "build:darwin": "cross-env BUILD_TARGET=darwin node .electron-vue/build.js",
-    "build:linux": "cross-env BUILD_TARGET=linux node .electron-vue/build.js",
+    "build:dmg": "npm run build:darwin && electron-installer-dmg --overwrite build/aidou-darwin-x64/aidou.app build/aidou",
     "build:mas": "cross-env BUILD_TARGET=mas node .electron-vue/build.js",
+    "build:linux": "cross-env BUILD_TARGET=linux node .electron-vue/build.js",
     "build:win32": "cross-env BUILD_TARGET=win32 node .electron-vue/build.js",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
@@ -48,6 +49,7 @@
     "electron": "^1.7.5",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.2.0",
+    "electron-installer-dmg": "^0.2.1",
     "electron-packager": "^8.5.0",
     "electron-rebuild": "^1.1.3",
     "eslint": "^4.4.1",
