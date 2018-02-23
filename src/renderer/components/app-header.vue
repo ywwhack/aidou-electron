@@ -58,7 +58,7 @@ export default {
     },
 
     btnList () {
-      const { shuffleSearch, shwoCollect, showConfig, tipText, view } = this
+      const { shuffleSearch, shwoCollect, tipText, view } = this
       return [
         {
           icon: 'icon-shuffle',
@@ -71,12 +71,6 @@ export default {
           tip: tipText,
           class: { active: view === 'collect' },
           handler: shwoCollect
-        },
-        {
-          icon: 'icon-settings',
-          text: '设置',
-          class: { active: view === 'config' },
-          handler: showConfig
         }
       ]
     }
@@ -119,10 +113,6 @@ export default {
       }
     },
 
-    showConfig () {
-      this.showView('config')
-    },
-
     shwoCollect () {
       this.showView('collect')
     },
@@ -143,7 +133,7 @@ export default {
   display: flex;
   align-items: center;
   height: 40px;
-  padding: 10px;
+  padding: 10px 20px;
   margin-bottom: 20px;
   background: #fff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, .1);
@@ -153,7 +143,7 @@ export default {
   .search-input {
     display: flex;
     align-items: center;
-    flex: 3;
+    flex: 1;
     height: 40px;
     padding: 2px 0;
 
@@ -169,7 +159,7 @@ export default {
     }
 
     .icon-search {
-      padding: 10px;
+      padding: 10px 10px 10px 0;
       color: $main-color;
       font-size: 16px;
       vertical-align: middle;
@@ -177,16 +167,14 @@ export default {
   }
 
   .oper-btns {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex: 1;
     height: 100%;
     list-style: none;
 
     .btn {
       position: relative;
+      display: inline-block;
       height: 100%;
+      margin-left: 20px;
       color: $main-color;
 
       .icon {

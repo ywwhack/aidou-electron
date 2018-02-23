@@ -13,11 +13,6 @@
         key="collect"
         v-show="view.collect">
       </collect-panel>
-      <config-panel
-        class="view"
-        key="config"
-        v-show="view.config">
-      </config-panel>
     </transition-group>
   </section>
 </template>
@@ -25,7 +20,6 @@
 <script>
 import AppHeader from './components/app-header'
 import SearchPanel from './components/search-panel'
-import ConfigPanel from './components/config-panel'
 import CollectPanel from './components/collect-panel'
 
 export default {
@@ -41,8 +35,7 @@ export default {
       const { currView } = this
       return {
         search: currView === 'search',
-        collect: currView === 'collect',
-        config: currView === 'config'
+        collect: currView === 'collect'
       }
     }
   },
@@ -55,7 +48,6 @@ export default {
 
   components: {
     AppHeader,
-    ConfigPanel,
     SearchPanel,
     CollectPanel
   }
