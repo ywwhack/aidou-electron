@@ -11,14 +11,9 @@
 </template>
 
 <script>
-import copy from '../util/copy'
 import bus from '../util/bus'
 import Loading from './loading'
-import showLinks from './showLinks'
-import LINK_BUILDER from '../util/linkBuilder'
 import ImageManager from '@/common/ImageManager'
-
-const WEIBO_LOGIN = 'http://weibo.com/?topnav=1&mod=logo'
 
 export default {
   props: {
@@ -54,18 +49,6 @@ export default {
         'icon-favorite': mod === 'add',
         'icon-delete_forever': mod === 'remove'
       }
-    },
-
-    showFullLinks ({
-      $store
-    }) {
-      return $store.appConfig.showFullLinks
-    },
-
-    copyMod ({
-      $store
-    }) {
-      return $store.appConfig.copyLink
     },
 
     active ({
@@ -122,69 +105,8 @@ export default {
       })
     },
 
-    copyLink (url) {
-      copy(url, ok => {
-        if (!ok) return
-        this.$swal({
-          title: '复制成功',
-          text: url.slice(0, 30) + '......',
-          icon: 'success',
-          buttons: false,
-          timer: 2000
-        })
-      })
-    },
-
-    fetchMarkLink () {
-      return new Promise((resolve, reject) => {
-        if (!this.src) return reject(new Error('图片链接未找到'))
-        if (!this.usePicBed) {
-          return resolve(this.exp.link)
-        }
-        this.$swal('生成图床链接中......', { button: false })
-      })
-    },
-
-    showMarkLink (url) {
-      if (!url) return
-      if (this.showFullLinks) {
-        this.$swal({
-          content: showLinks(url),
-          buttons: false
-        })
-      } else {
-        const copyLinkBuilder = LINK_BUILDER[this.copyMod]
-        const copyUrl = copyLinkBuilder(url)
-        this.copyLink(copyUrl)
-      }
-    },
-
-    buildMarkLink () {
-      this.fetchMarkLink().then(this.showMarkLink, () => {})
-    },
-
-    picBedErrHandler (server, err) {
-      if (server === 'weibo') {
-        this.$swal({
-          text: `${err}，先登录新微博后重试`,
-          icon: 'warning',
-          buttons: ['我不登', '好哒']
-        }).then(v => {
-          if (!v) return
-          window.open(WEIBO_LOGIN)
-        })
-      } else {
-        this.$swal({
-          text: `emmm... 图床好像挂掉了，换个图床试试`,
-          icon: 'warning',
-          buttons: true
-        })
-      }
-    },
-
     updateExpression () {
-      const { mod } = this
-      if (mod === 'add') {
+      if (this.mod === 'add') {
         this.addExpression()
       } else {
         this.removeExpression()
