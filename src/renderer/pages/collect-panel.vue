@@ -2,22 +2,14 @@
   <expression-list
     mod="remove"
     :data="data"
-    :total="data.length"
-    :loading="false">
+    :total="data.length">
   </expression-list>
 </template>
 
 <script>
-import ExpressionList from './expression-list'
+import ExpressionList from '@/components/expression-list'
 
 export default {
-  props: {
-    query: {
-      type: String,
-      default: ''
-    }
-  },
-
   computed: {
     data ({
       $store

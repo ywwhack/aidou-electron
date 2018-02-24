@@ -8,16 +8,18 @@
 </template>
 
 <script>
-import ExpressionList from './expression-list'
+import ExpressionList from '@/components/expression-list'
 import queryEngine from '@/service/queryEngine'
+import {
+  EXPRESSION_TYPE_MAP
+} from '@/constants'
 
 export default {
-  props: {
-    query: String
-  },
-
   data () {
     return {
+      expressionType: EXPRESSION_TYPE_MAP.expression,
+
+      // expression-list
       data: [],
       size: 30,
       page: 1,
@@ -27,6 +29,10 @@ export default {
   },
 
   computed: {
+    query () {
+      return this.$store.query
+    },
+
     params ({
       query,
       page,
@@ -38,9 +44,9 @@ export default {
   },
 
   watch: {
-    query: 'reset',
+    'query': 'reset',
 
-    params: {
+    'params': {
       deep: true,
       handler: 'fetchExpression'
     }

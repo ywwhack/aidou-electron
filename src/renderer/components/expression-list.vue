@@ -10,7 +10,7 @@
     <div class="loading-wrapper" v-show="loading">
       <loading :size="10"></loading>
     </div>
-    <div class="empyt-wrapper" v-show="showEmpyt">
+    <div class="empty-wrapper" v-show="showEmpyt">
       <img v-if="mod === 'add'" src="../assets/no-data.png">
       <img v-else src="../assets/empty-icon.png">
     </div>
@@ -18,9 +18,9 @@
 </template>
 
 <script>
+import Expression from '@/components/expression'
+import Loading from '@/components/loading'
 import debounce from 'lodash/debounce'
-import Expression from './expression'
-import Loading from './loading'
 
 export default {
   props: {
@@ -86,6 +86,7 @@ export default {
 <style lang="scss">
 .cpt-expression-list {
   overflow: hidden;
+  position: relative;
   width: 100%;
   height: 100%;
 
@@ -101,21 +102,17 @@ export default {
     }
   }
 
-  .empyt-wrapper,
+  .empty-wrapper,
   .loading-wrapper {
     position: absolute;
     z-index: 10;
-    bottom: 0;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
   }
 
-  .loading-wrapper {
-    height: 40px;
-  }
-
-  .empyt-wrapper {
+  .empty-wrapper {
     display: flex;
     align-items: center;
 

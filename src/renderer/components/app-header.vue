@@ -2,12 +2,14 @@
   <section class="cpt-app-header">
     <div class="search-input">
       <span class="icon-search"></span>
-      <input v-model.trim="keyword"
-        @keyup.enter="fetchExp"
-        @focus="showView('search')">
+      <input
+        v-model.trim="keyword"
+        @keyup.enter="search"
+        @focus="$router.push('/search-panel')">
     </div>
     <ul class="oper-btns">
-      <li class="btn"
+      <li
+        class="btn"
         v-for="btn in btnList"
         :key="btn.text"
         :class="btn.class"
@@ -21,44 +23,40 @@
 </template>
 
 <script>
-import HOT_WORDS from '@/common/hotWords.js'
-import bus from '../util/bus'
-export default {
-  props: {
-    view: {
-      type: String,
-      default: 'search'
-    }
-  },
+import HOT_WORDS from '@/common/hotWords'
+import bus from '@/util/bus'
 
+export default {
   data () {
     this.hotWords = HOT_WORDS
+
     return {
       keyword: '',
-      hotWord: '',
       tipMod: 0
     }
   },
 
   computed: {
-    syncView: {
-      get () {
-        return this.view
-      },
-
-      set (v) {
-        this.$emit('update:view', v)
-      }
-    },
-
     tipText () {
       const { tipMod } = this
       if (!tipMod) return
       return tipMod > 0 ? '+ 1' : '- 1'
     },
 
+    isCollectPanelShowed ({
+      $route
+    }) {
+      return $route.path === '/collect-panel'
+    },
+
     btnList () {
-      const { shuffleSearch, shwoCollect, tipText, view } = this
+      const {
+        tipText,
+        isCollectPanelShowed,
+        shuffleSearch,
+        toggleCollectPanel
+      } = this
+
       return [
         {
           icon: 'icon-shuffle',
@@ -69,19 +67,11 @@ export default {
           icon: 'icon-favorite_border',
           text: '我的收藏',
           tip: tipText,
-          class: { active: view === 'collect' },
-          handler: shwoCollect
+          class: { active: isCollectPanelShowed },
+          handler: toggleCollectPanel
         }
       ]
     }
-  },
-
-  created () {
-    bus.$on('update-collect-tip', this.updateCollectTip)
-  },
-
-  beforeDestroy () {
-    bus.$off('update-collect-tip', this.updateCollectTip)
   },
 
   methods: {
@@ -92,37 +82,36 @@ export default {
       }, 600)
     },
 
+    toggleCollectPanel () {
+      const nextPanelPath = this.isCollectPanelShowed ? '/search-panel' : '/collect-panel'
+      this.$router.push(nextPanelPath)
+    },
+
     shuffleSearch () {
-      const { hotWords } = this
-      const keyword = hotWords[(Math.random() * hotWords.length | 0)]
-      if (!keyword) return
-      if (this.keyword === keyword) {
+      const { hotWords, keyword, $store } = this
+      const hotWord = hotWords[(Math.random() * hotWords.length | 0)]
+      if (!hotWord || hotWord === keyword) {
         return this.shuffleSearch()
       }
-      this.syncView = 'search'
-      this.keyword = keyword
-      this.$emit('fetch-exp', `${this.keyword} 表情`)
+      this.keyword = hotWord
+      $store.updateQuery(`${this.keyword} 表情`)
+      this.$router.push('/search-panel')
     },
 
-    showView (view) {
-      const { syncView } = this
-      if (syncView !== view) {
-        this.syncView = view
-      } else {
-        this.syncView = 'search'
-      }
-    },
-
-    shwoCollect () {
-      this.showView('collect')
-    },
-
-    fetchExp () {
+    search () {
       if (!this.keyword) {
         return this.shuffleSearch()
       }
-      this.$emit('fetch-exp', `${this.keyword} 表情`)
+      this.$store.updateQuery(`${this.keyword} 表情`)
     }
+  },
+
+  created () {
+    bus.$on('update-collect-tip', this.updateCollectTip)
+  },
+
+  beforeDestroy () {
+    bus.$off('update-collect-tip', this.updateCollectTip)
   }
 }
 </script>

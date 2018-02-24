@@ -6,7 +6,9 @@ const collectData = storage.get('collect_data') || {}
 
 export default new Vue({
   data: {
-    collectData
+    collectData,
+
+    query: ''
   },
 
   watch: {
@@ -16,6 +18,12 @@ export default new Vue({
       handler (value) {
         storage.set('collect_data', value)
       }
+    }
+  },
+
+  methods: {
+    updateQuery (query) {
+      this.query = query
     }
   }
 })

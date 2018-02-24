@@ -1,55 +1,22 @@
 <template>
   <section id="app">
-    <app-header @fetch-exp="fetchExp" :view.sync="currView"></app-header>
-    <transition-group name="panels" tag="div" class="app-wrapper">
-      <search-panel
-        class="view"
-        key="search"
-        :query="query"
-        v-show="view.search">
-      </search-panel>
-      <collect-panel
-        class="view"
-        key="collect"
-        v-show="view.collect">
-      </collect-panel>
-    </transition-group>
+    <app-header></app-header>
+    <div class="main">
+      <transition name="panels" mode="out-in">
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </div>
   </section>
 </template>
 
 <script>
-import AppHeader from './components/app-header'
-import SearchPanel from './components/search-panel'
-import CollectPanel from './components/collect-panel'
+import AppHeader from '@/components/app-header'
 
 export default {
-  data () {
-    return {
-      query: '',
-      currView: 'search'
-    }
-  },
-
-  computed: {
-    view () {
-      const { currView } = this
-      return {
-        search: currView === 'search',
-        collect: currView === 'collect'
-      }
-    }
-  },
-
-  methods: {
-    fetchExp (v) {
-      this.query = v
-    }
-  },
-
   components: {
-    AppHeader,
-    SearchPanel,
-    CollectPanel
+    AppHeader
   }
 }
 </script>
@@ -66,24 +33,14 @@ export default {
   color: #3e5165;
   font-weight: 200;
 
-  .app-wrapper {
-    position: relative;
+  .main {
     flex: 1;
     overflow: hidden;
-
-    .view {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #fff;
-    }
   }
 
   .panels-enter-active,
   .panels-leave-active {
-    transition: opacity .8s, transform .8s;
+    transition: opacity .2s, transform .2s;
   }
   .panels-enter,
   .panels-leave-to {
