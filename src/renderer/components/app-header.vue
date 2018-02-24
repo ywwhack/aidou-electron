@@ -128,8 +128,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import '~@/styles/variables.scss';
+
 .cpt-app-header {
-  $main-color: #929aa3;
   display: flex;
   align-items: center;
   height: 40px;
@@ -160,7 +161,7 @@ export default {
 
     .icon-search {
       padding: 10px 10px 10px 0;
-      color: $main-color;
+      color: $info-color;
       font-size: 16px;
       vertical-align: middle;
     }
@@ -175,7 +176,7 @@ export default {
       display: inline-block;
       height: 100%;
       margin-left: 20px;
-      color: $main-color;
+      color: $info-color;
 
       .icon {
         font-size: 16px;
@@ -199,7 +200,7 @@ export default {
           position: absolute;
           bottom: -3px;
           left: 50%;
-          border-top: 4px solid $main-color;
+          border-top: 4px solid $info-color;
           border-right: 4px solid transparent;
           border-left: 4px solid transparent;
           transform: translateX(-50%);
@@ -208,7 +209,7 @@ export default {
 
       .text {
         color: #fff;
-        background: $main-color;
+        background: $info-color;
         transform: translate3d(-50%, -100%, 0);
         transition: opacity .2s ease-in-out, transform .2s ease-in-out;
         opacity: 0;
@@ -217,12 +218,12 @@ export default {
       .tip-text {
         color: #fff;
         font-size: 12px;
-        background: #4ad9d9;
+        background: $main-color;
         transform: translate3d(-50%, -120%, 0);
         animation: popup .2s 1 linear;
 
         &:after {
-          border-top-color: #4ad9d9;
+          border-top-color: $main-color;
         }
 
         @keyframes popup {
@@ -244,7 +245,7 @@ export default {
 
       &.active,
       &:hover {
-        color: #4ad9d9;
+        color: $main-color;
       }
 
       &:hover.text {
