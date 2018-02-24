@@ -1,11 +1,11 @@
 <template>
   <section class="cpt-expression-list">
     <div class="expression-wrapper" @scroll="requestExpression">
-      <expression
+      <expression-item
         v-for="exp in data"
         :key="exp.link"
         :exp="exp" :mod="mod">
-      </expression>
+      </expression-item>
     </div>
     <div class="loading-wrapper" v-show="loading">
       <loading :size="10"></loading>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Expression from '@/components/expression'
+import ExpressionItem from '@/components/expression-item'
 import Loading from '@/components/loading'
 import debounce from 'lodash/debounce'
 
@@ -77,7 +77,7 @@ export default {
   },
 
   components: {
-    Expression,
+    ExpressionItem,
     Loading
   }
 }

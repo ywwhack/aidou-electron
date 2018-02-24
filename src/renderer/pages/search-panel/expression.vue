@@ -10,18 +10,11 @@
 <script>
 import ExpressionList from '@/components/expression-list'
 import queryEngine from '@/service/queryEngine'
-import {
-  EXPRESSION_TYPE_MAP
-} from '@/constants'
 
 export default {
   data () {
     return {
-      expressionType: EXPRESSION_TYPE_MAP.expression,
-
-      // expression-list
       data: [],
-      size: 30,
       page: 1,
       total: 0,
       loading: false
@@ -39,7 +32,7 @@ export default {
       size
     }) {
       if (!query) return
-      return { query, page, size }
+      return { query, page, size: 30 }
     }
   },
 
@@ -48,6 +41,7 @@ export default {
 
     'params': {
       deep: true,
+      immediate: true,
       handler: 'fetchExpression'
     }
   },

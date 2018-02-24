@@ -1,5 +1,5 @@
 <template>
-  <div class="cpt-expression" @click="copyImgToClipboard">
+  <div class="cpt-expression-item" @click="copyImgToClipboard">
     <img v-show="imgData" :src="imgData">
     <loading v-show="!imgData"></loading>
     <span
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import bus from '../util/bus'
-import Loading from './loading'
+import Loading from '@/components/loading'
+import bus from '@/util/bus'
 import ImageManager from '@/common/ImageManager'
 
 export default {
@@ -151,7 +151,7 @@ export default {
 </script>
 
 <style lang="scss">
-.cpt-expression {
+.cpt-expression-item {
   position: relative;
   z-index: 100;
   width: 200px;
