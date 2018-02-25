@@ -7,9 +7,7 @@
         :exp="exp" :mod="mod">
       </expression-item>
     </div>
-    <div class="loading-wrapper" v-show="loading">
-      <loading :size="10"></loading>
-    </div>
+    <loading :size="10" v-show="loading"></loading>
     <empty v-show="showEmpty" :mod="mod"></empty>
   </section>
 </template>
@@ -17,7 +15,7 @@
 <script>
 import ExpressionItem from '@/components/expression-item'
 import Loading from '@/components/loading'
-import Empty from '@/components/Empty'
+import Empty from '@/components/empty'
 import debounce from 'lodash/debounce'
 
 export default {
@@ -99,15 +97,6 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
-  }
-
-  .loading-wrapper {
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

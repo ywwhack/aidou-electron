@@ -12,11 +12,14 @@ export function searchPackages (keyword) {
     const doc = response.data
     const expContainerNodes = doc.querySelectorAll('.recall-module')
     return Array.from(expContainerNodes).map(container => {
-      const link = container.querySelector('.emo-tit-recall').href
+      const linkNode = container.querySelector('.emo-tit-recall')
+      const link = linkNode.href
+      const title = linkNode.innerText
       // 取表情包的第一张图片作为预览
       const preview = container.querySelector('img[rsrc]').getAttribute('rsrc')
       return {
         link,
+        title,
         preview
       }
     })

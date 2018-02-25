@@ -1,15 +1,15 @@
 <template>
   <div class="page-search-panel">
-    <expression-types :selected.sync="expressionType"></expression-types>
-    <expression v-if="expressionType === EXPRESSION_TYPE_MAP.expression"></expression>
-    <package v-else></package>
+    <div class="header">
+      <button class="common-btn confirm" @click="back">后退</button>
+      <expression-types :selected.sync="expressionType"></expression-types>
+    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import ExpressionTypes from '@/components/expression-types'
-import Expression from './expression'
-import Package from './package'
 import {
   EXPRESSION_TYPE_MAP
 } from '@/constants'
@@ -23,10 +23,21 @@ export default {
     }
   },
 
+  watch: {
+    'expressionType' (value) {
+      const routeName = value === EXPRESSION_TYPE_MAP.expression ? 'expression' : 'package-list'
+      this.$router.push({ name: routeName })
+    }
+  },
+
+  methods: {
+    back () {
+      this.$router.back()
+    }
+  },
+
   components: {
-    ExpressionTypes,
-    Expression,
-    Package
+    ExpressionTypes
   }
 }
 </script>
@@ -34,5 +45,10 @@ export default {
 <style lang="scss">
 .page-search-panel {
   height: 100%;
+
+  & > .header {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

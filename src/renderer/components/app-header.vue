@@ -5,7 +5,7 @@
       <input
         v-model.trim="keyword"
         @keyup.enter="search"
-        @focus="$router.push('/search-panel')">
+        @focus="backToSearchPanel">
     </div>
     <ul class="oper-btns">
       <li
@@ -82,27 +82,47 @@ export default {
       }, 600)
     },
 
+    backToSearchPanel () {
+      const { fromPath, $router } = this
+      if (!fromPath) return
+
+      $router.push(fromPath)
+      this.fromPath = null
+    },
+
     toggleCollectPanel () {
-      const nextPanelPath = this.isCollectPanelShowed ? '/search-panel' : '/collect-panel'
-      this.$router.push(nextPanelPath)
+      const {
+        isCollectPanelShowed,
+        $route,
+        $router,
+        backToSearchPanel
+      } = this
+      if (isCollectPanelShowed) {
+        backToSearchPanel()
+      } else {
+        // 记录进入收藏页之前的路由，便于从收藏页切换回去
+        this.fromPath = $route.path
+        $router.push('/collect-panel')
+      }
     },
 
     shuffleSearch () {
-      const { hotWords, keyword, $store } = this
+      const { hotWords, keyword, $store, backToSearchPanel } = this
       const hotWord = hotWords[(Math.random() * hotWords.length | 0)]
       if (!hotWord || hotWord === keyword) {
         return this.shuffleSearch()
       }
       this.keyword = hotWord
-      $store.updateQuery(`${this.keyword} 表情`)
-      this.$router.push('/search-panel')
+      $store.updateQuery(hotWord)
+      backToSearchPanel()
     },
 
     search () {
-      if (!this.keyword) {
+      const { keyword, $store } = this
+      if (!keyword) {
         return this.shuffleSearch()
       }
-      this.$store.updateQuery(`${this.keyword} 表情`)
+      $store.updateQuery(keyword)
     }
   },
 

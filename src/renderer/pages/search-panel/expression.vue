@@ -23,7 +23,8 @@ export default {
 
   computed: {
     query () {
-      return this.$store.query
+      const query = this.$store.query
+      return query ? `${query} 表情` : ''
     },
 
     params ({
