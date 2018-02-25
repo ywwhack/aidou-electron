@@ -10,16 +10,14 @@
     <div class="loading-wrapper" v-show="loading">
       <loading :size="10"></loading>
     </div>
-    <div class="empty-wrapper" v-show="showEmpyt">
-      <img v-if="mod === 'add'" src="../assets/no-data.png">
-      <img v-else src="../assets/empty-icon.png">
-    </div>
+    <empty v-show="showEmpty" :mod="mod"></empty>
   </section>
 </template>
 
 <script>
 import ExpressionItem from '@/components/expression-item'
 import Loading from '@/components/loading'
+import Empty from '@/components/Empty'
 import debounce from 'lodash/debounce'
 
 export default {
@@ -60,7 +58,7 @@ export default {
       }
     },
 
-    showEmpyt () {
+    showEmpty () {
       return !this.data.length && !this.loading
     }
   },
@@ -78,7 +76,8 @@ export default {
 
   components: {
     ExpressionItem,
-    Loading
+    Loading,
+    Empty
   }
 }
 </script>
@@ -102,7 +101,6 @@ export default {
     }
   }
 
-  .empty-wrapper,
   .loading-wrapper {
     position: absolute;
     z-index: 10;
@@ -110,15 +108,6 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .empty-wrapper {
-    display: flex;
-    align-items: center;
-
-    img {
-      margin: 0 auto;
-    }
   }
 }
 </style>
