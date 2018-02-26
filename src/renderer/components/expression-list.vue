@@ -1,14 +1,18 @@
 <template>
   <section class="cpt-expression-list">
-    <div class="expression-wrapper" @scroll="requestExpression">
+    <div class="expressions" @scroll="requestExpression">
       <expression-item
         v-for="exp in data"
         :key="exp.link"
         :exp="exp" :mod="mod">
       </expression-item>
     </div>
-    <loading :size="10" v-show="loading"></loading>
-    <empty v-show="showEmpty" :mod="mod"></empty>
+    <div v-show="showEmpty" class="empty">
+      <empty :mod="mod"></empty>
+    </div>
+    <div v-show="loading" class="loading">
+      <loading :size="10"></loading>
+    </div>
   </section>
 </template>
 
@@ -57,7 +61,7 @@ export default {
     },
 
     showEmpty () {
-      return !this.data.length && !this.loading
+      return this.data.length === 0
     }
   },
 
@@ -82,12 +86,10 @@ export default {
 
 <style lang="scss">
 .cpt-expression-list {
-  overflow: hidden;
   position: relative;
-  width: 100%;
   height: 100%;
 
-  .expression-wrapper {
+  .expressions {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -97,6 +99,19 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  & > .loading,
+  & > .empty {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  & > .loading {
+    height: 20px;
   }
 }
 </style>

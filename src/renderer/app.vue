@@ -23,12 +23,10 @@ export default {
 
 <style lang="scss">
 #app {
-  position: relative;
-  z-index: 100;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 40px 50px 40px 60px;
+  padding: 40px 50px;
   background: #fff;
   color: #3e5165;
   font-weight: 200;

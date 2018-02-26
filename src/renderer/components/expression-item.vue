@@ -153,14 +153,12 @@ export default {
 <style lang="scss">
 .cpt-expression-item {
   position: relative;
-  z-index: 100;
   width: 200px;
   height: 200px;
   padding: 10px;
   border: 1px solid #efefef;
   margin: 20px 0;
   background: #fff;
-
   cursor: pointer;
   transition: all .2s ease-in;
 
@@ -183,7 +181,6 @@ export default {
     color: #aaa;
     font-size: 20px;
     opacity: 0;
-
     transition: all .2s ease-in-out;
 
     &:hover,

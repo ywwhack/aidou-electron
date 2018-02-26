@@ -13,8 +13,12 @@
         </div>
       </li>
     </ul>
-    <loading v-show="loading"></loading>
-    <empty v-show="showEmpty"></empty>
+    <div v-show="showEmpty" class="empty">
+      <empty></empty>
+    </div>
+    <div v-show="loading" class="loading">
+      <loading></loading>
+    </div>
   </div>
 </template>
 
@@ -42,7 +46,7 @@ export default {
       packages,
       loading
     }) {
-      return packages.length === 0 && !loading
+      return packages.length === 0
     }
   },
 
@@ -85,43 +89,50 @@ export default {
   height: 100%;
 
   .packages {
-    overflow: auto;
-    flex: 1;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 
-    &::-webkit-scrollbar {
-      display: none;
+    .package-item {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      padding: 10px;
+      border: 1px solid #efefef;
+      margin: 20px 0;
+      background: #fff;
+      cursor: pointer;
+
+      & > img {
+        width: 100%;
+        height: 100%;
+      }
+
+      & > .info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0 10px;
+        color: #fff;
+        background: #ddd;
+      }
     }
   }
 
-  .package-item {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    padding: 10px;
-    border: 1px solid #efefef;
-    margin: 20px 0;
+  & > .loading,
+  & > .empty {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  
+  & > .loading {
     background: #fff;
-    cursor: pointer;
-
-    & > img {
-      width: 100%;
-      height: 100%;
-    }
-
-    & > .info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 10px;
-      color: #fff;
-      background: #ddd;
-    }
   }
 }
 </style>

@@ -1,12 +1,14 @@
 <template>
   <div class="page-search-panel">
-    <div class="header">
+    <div class="package-header">
       <span v-if="showBackBtn" class="icon-rewind" @click="back">返回</span>
       <!-- 元素占位符，目的是让 expression-types 排列在行的右侧 -->
       <span v-else></span>
       <expression-types :selected.sync="expressionType"></expression-types>
     </div>
-    <router-view></router-view>
+    <div class="package-content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -56,14 +58,25 @@ export default {
 <style lang="scss">
 .page-search-panel {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 
-  & > .header {
+  & > .package-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     & > .icon-rewind {
       cursor: pointer;
+    }
+  }
+
+  & > .package-content {
+    flex: 1;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   }
 }
