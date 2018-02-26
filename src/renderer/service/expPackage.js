@@ -17,11 +17,15 @@ export function searchPackages (keyword) {
       // match package id from link
       const id = /id=([^&]*)/.exec(link)[1]
       const title = linkNode.innerText
+      // 获取表情包数量
+      const countNode = container.querySelector('.more-emo')
+      const count = countNode.innerText.slice(0, -1)
       // 取表情包的第一张图片作为预览
       const preview = container.querySelector('img[rsrc]').getAttribute('rsrc')
       return {
         id,
         title,
+        count,
         preview
       }
     })

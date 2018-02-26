@@ -7,7 +7,10 @@
         :title="item.title"
         @click="goDetail(item)">
         <img :src="item.preview">
-        <span>{{ item.title }}</span>
+        <div class="info">
+          <span>{{ item.title }}</span>
+          <span>{{ item.count }} 张</span>
+        </div>
       </li>
     </ul>
     <loading v-show="loading"></loading>
@@ -108,12 +111,14 @@ export default {
       height: 100%;
     }
 
-    & > span {
+    & > .info {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 10px;
       color: #fff;
       background: #ddd;
     }
