@@ -10,7 +10,7 @@
     <div v-show="showEmpty" class="empty">
       <empty :mod="mod"></empty>
     </div>
-    <div v-show="loading" class="loading">
+    <div v-show="loading" :class="loadingClass">
       <loading :size="10"></loading>
     </div>
   </section>
@@ -62,6 +62,16 @@ export default {
 
     showEmpty () {
       return this.data.length === 0
+    },
+
+    loadingClass ({
+      page
+    }) {
+      return {
+        loading: true,
+        // 如果不是滚动加载，loading 显示全屏
+        fullscreen: page === 1
+      }
     }
   },
 
@@ -112,6 +122,11 @@ export default {
 
   & > .loading {
     height: 20px;
+
+    &.fullscreen {
+      height: 100%;
+      background: #fff;
+    }
   }
 }
 </style>
