@@ -1,7 +1,9 @@
 <template>
   <div class="page-search-panel">
     <div class="header">
-      <button class="common-btn confirm" @click="back">后退</button>
+      <span v-if="showBackBtn" class="icon-rewind" @click="back">返回</span>
+      <!-- 元素占位符，目的是让 expression-types 排列在行的右侧 -->
+      <span v-else></span>
       <expression-types :selected.sync="expressionType"></expression-types>
     </div>
     <router-view></router-view>
@@ -23,6 +25,15 @@ export default {
     }
   },
 
+  computed: {
+    // 目前只有在进入具体表情包的时候，才会显示后退按钮
+    showBackBtn ({
+      $route
+    }) {
+      return $route.name === 'package-detail'
+    }
+  },
+
   watch: {
     'expressionType' (value) {
       const routeName = value === EXPRESSION_TYPE_MAP.expression ? 'expression' : 'package-list'
@@ -32,7 +43,7 @@ export default {
 
   methods: {
     back () {
-      this.$router.back()
+      this.$router.push({ name: 'package-list' })
     }
   },
 
@@ -49,6 +60,11 @@ export default {
   & > .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    & > .icon-rewind {
+      cursor: pointer;
+    }
   }
 }
 </style>

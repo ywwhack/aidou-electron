@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'aidou';
   src:
-    url('fonts/aidou.ttf?h1bldk') format('truetype'),
-    url('fonts/aidou.woff?h1bldk') format('woff'),
-    url('fonts/aidou.svg?h1bldk#aidou') format('svg');
+    url('fonts/icomoon.ttf?ixqlam') format('truetype'),
+    url('fonts/icomoon.woff?ixqlam') format('woff'),
+    url('fonts/icomoon.svg?ixqlam#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,27 +23,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-delete_forever:before {
+.icon-rewind:before {
   content: "\e900";
 }
-.icon-favorite:before {
-  content: "\e901";
-}
-.icon-shuffle:before {
+.icon-delete_forever:before {
   content: "\e902";
 }
-.icon-refresh:before {
+.icon-favorite:before {
   content: "\e903";
 }
-.icon-settings:before {
+.icon-shuffle:before {
   content: "\e904";
 }
-.icon-favorite_border:before {
+.icon-refresh:before {
   content: "\e905";
 }
-.icon-search:before {
+.icon-settings:before {
   content: "\e906";
 }
-.icon-close:before {
+.icon-favorite_border:before {
   content: "\e907";
+}
+.icon-search:before {
+  content: "\e908";
+}
+.icon-close:before {
+  content: "\e909";
 }
