@@ -14,11 +14,13 @@ export function searchPackages (keyword) {
     return Array.from(expContainerNodes).map(container => {
       const linkNode = container.querySelector('.emo-tit-recall')
       const link = linkNode.href
+      // match package id from link
+      const id = /id=([^&]*)/.exec(link)[1]
       const title = linkNode.innerText
       // 取表情包的第一张图片作为预览
       const preview = container.querySelector('img[rsrc]').getAttribute('rsrc')
       return {
-        link,
+        id,
         title,
         preview
       }
@@ -26,12 +28,14 @@ export function searchPackages (keyword) {
   })
 }
 
-export function getPackage (packageLink) {
-  return axios.get(packageLink, { responseType: 'document' })
-    .then(response => {
-      const doc = response.data
-      const container = doc.getElementById('groupEmojiListUl')
-      const expNodes = container.querySelectorAll('img[rsrc]')
-      return Array.from(expNodes).map(node => node.getAttribute('rsrc'))
-    })
+export function getPackage (id) {
+  return axios.get('http://pic.sogou.com/pic/emo/groupDetail.jsp', {
+    params: { id, from: 'emo_search_gname' },
+    responseType: 'document'
+  }).then(response => {
+    const doc = response.data
+    const container = doc.getElementById('groupEmojiListUl')
+    const expNodes = container.querySelectorAll('img[rsrc]')
+    return Array.from(expNodes).map(node => node.getAttribute('rsrc'))
+  })
 }

@@ -60,7 +60,12 @@ export default {
     },
 
     goDetail (item) {
-      this.$router.push({ name: 'package-detail' })
+      this.$router.push({
+        name: 'package-detail',
+        query: {
+          id: item.id
+        }
+      })
     }
   },
 
