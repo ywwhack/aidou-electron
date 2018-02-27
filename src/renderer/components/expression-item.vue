@@ -70,8 +70,7 @@ export default {
 
     copyImgSuccess (url) {
       this.$swal({
-        title: '复制成功',
-        text: url.slice(0, 30) + '......',
+        text: '复制成功',
         icon: 'success',
         buttons: false,
         timer: 2000
