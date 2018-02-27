@@ -21,6 +21,13 @@ export default {
     }
   },
 
+  watch: {
+    // 如果查询条件改变了，就退回到上一个页面 package-list
+    '$store.query' () {
+      this.$router.push({ name: 'package-list' })
+    }
+  },
+
   methods: {
     async loadData () {
       const id = this.$route.query.id
