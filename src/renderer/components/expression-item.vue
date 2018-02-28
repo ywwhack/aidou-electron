@@ -72,8 +72,7 @@ export default {
       this.$swal({
         text: '复制成功',
         icon: 'success',
-        buttons: false,
-        timer: 2000
+        buttons: false
       })
     },
 
