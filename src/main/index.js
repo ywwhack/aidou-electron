@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import createMenu from './menu'
 
 /**
  * Set `__static` path to static files in production
@@ -32,7 +33,10 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  createMenu(app)
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
