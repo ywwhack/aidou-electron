@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'development') {
 }
 
 let mainWindow
+let willQuitApp = false
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
@@ -28,8 +29,15 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
+  mainWindow.on('close', e => {
+    if (willQuitApp) {
+      // user want to quit app
+      mainWindow = null
+    } else {
+      // user just want hide app
+      e.preventDefault()
+      mainWindow.hide()
+    }
   })
 }
 
@@ -38,14 +46,12 @@ app.on('ready', () => {
   createMenu(app)
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+app.on('before-quit', () => {
+  willQuitApp = true
 })
 
 app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow()
+  if (mainWindow) {
+    mainWindow.show()
   }
 })
