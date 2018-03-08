@@ -15,10 +15,20 @@ export default function createMenu (app) {
       ]
     },
     {
+      label: 'Action',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { role: 'cut' },
+        { role: 'paste' },
+        { role: 'selectall' }
+      ]
+    },
+    {
       role: 'window',
       submenu: [
-        {role: 'minimize'},
-        {role: 'close'}
+        { role: 'minimize' },
+        { role: 'close' }
       ]
     }
   ]
