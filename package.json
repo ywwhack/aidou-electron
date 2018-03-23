@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "is-gif": "^2.0.0",
     "nodobjc": "^2.1.0",
     "sweetalert": "^2.1.0",
     "vue": "^2.3.3",

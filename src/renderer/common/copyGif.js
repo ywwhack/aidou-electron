@@ -7,7 +7,7 @@ import {
 $.framework('Foundation')
 $.framework('AppKit')
 
-export default function copyImage (filename) {
+export default function copyGif (filename) {
   const pool = $.NSAutoreleasePool('alloc')('init')
 
   const $pasteboard = $.NSPasteboard('generalPasteboard')

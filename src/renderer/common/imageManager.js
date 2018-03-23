@@ -7,7 +7,12 @@ import {
 import {
   IMAGE_SAVE_DIR
 } from '@/constants'
-import copyImage from '@/common/copyImage'
+import copyGif from '@/common/copyGif'
+import isGif from 'is-gif'
+import {
+  clipboard,
+  nativeImage
+} from 'electron'
 
 class ImageManger {
   constructor (url) {
@@ -27,16 +32,20 @@ class ImageManger {
       const reader = new FileReader()
       reader.readAsArrayBuffer(data)
       // 先将文件下载到本地
-      await new Promise(resolve => {
+      const buffer = await new Promise(resolve => {
         reader.onloadend = () => {
           const buffer = Buffer.from(reader.result)
           const filePath = path.resolve(IMAGE_SAVE_DIR, filename)
           promisify(fs.writeFile)(filePath, buffer)
-          resolve()
+          resolve(buffer)
         }
       })
       // 拷贝到剪切板
-      copyImage(filename)
+      if (isGif(buffer)) {
+        copyGif(filename)
+      } else {
+        clipboard.writeImage(nativeImage.createFromBuffer(buffer))
+      }
     } catch (e) {
       console.error(e)
       // todo: error handler
